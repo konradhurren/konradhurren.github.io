@@ -14,7 +14,7 @@ I have an educational background in economics and econometrics; as a naturally i
 
 Now this was right up my alley. Over the last few months I've been following a few courses on Udemy and Coursera, notably Andrew Ng's _Machine Learning_ course on Coursera. It's been a satisfying journey so far and this blog is basically a portfolio of Machine Learning and Data Science stuff that I've completed.
 
-I'll be building up this portfolio by following Andrew Ng's course and completing he exercises in R to post them on this portfolio. This will showcase how I've learned Machine Learning, as well as serve to help me hone my R skills - especially in a package called Shiny and R Markdown.
+I'll be building up this portfolio by following Andrew Ng's course and completing the exercises in R to post them on this portfolio. This will showcase how I've learned Machine Learning, as well as serve to help me hone my R skills - especially in a package called Shiny and R Markdown.
 
 The other side of me professionally is an economist with a strong interest and strong subscription to the Misesian-Mengerian (sometimes called _Austrian_) school. This school of thought starts off with a set of self-evident axioms of human action, and from those derives the entire catalogue of economic truths we have so far. It has its detractors and very valid critics, notably Brian Caplan (and his excellent post "why I am not an Austrian") but, overall, the current nature of the world and global economy seems to be best explained with reference to this _Austrian_ method.
 
