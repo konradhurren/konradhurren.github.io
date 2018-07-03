@@ -1,0 +1,23 @@
+---
+title: Welcome to Konrad's blog
+author: Konrad Hurren
+date: '2018-07-03'
+slug: welcome-to-konrad-s-blog
+categories: []
+tags: []
+---
+# Welcome
+
+## Who's Konrad, what is this blog and why am I here?
+
+I have an educational background in economics and econometrics; as a naturally inquisitive person, after university I started reading things unrelated to my job. This lead me to finding this half new half old thing called _Machine Learning_ . After reading through some of the basics I thought "hey some of this looks incredibly similar to econometrics, with some nomenclature differences." And from there my curiosity grew as I discovered Machine Learning is part of a broader discipline called Data Science_ .
+
+Now this was right up my alley. Over the last few months I've been following a few courses on Udemy and Coursera, notably Andrew Ng's _Machine Learning_ course on Coursera. It's been a satisfying journey so far and this blog is basically a portfolio of Machine Learning and Data Science stuff that I've completed.
+
+I'll be building up this portfolio by following Andrew Ng's course and completing he exercises in R to post them on this portfolio. This will showcase how I've learned Machine Learning, as well as serve to help me hone my R skills - especially in a package called Shiny and R Markdown.
+
+The other side of me professionally is an economist with a strong interest and strong subscription to the Misesian-Mengerian (sometimes called _Austrian_) school. This school of thought starts off with a set of self-evident axioms of human action, and from those derives the entire catalogue of economic truths we have so far. It has its detractors and very valid critics, notably Brian Caplan (and his excellent post "why I am not an Austrian") but, overall, the current nature of the world and global economy seems to be best explained with reference to this _Austrian_ method.
+
+This blog will, from time to time, feature some real economics.
+
+

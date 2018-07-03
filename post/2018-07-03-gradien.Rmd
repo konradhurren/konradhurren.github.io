@@ -1,0 +1,59 @@
+---
+title: Gradient Descent part 1
+author: Konrad Hurren
+date: '2018-06-30'
+slug: gradient-descent-part-1
+categories:
+  - R
+  - machine learning
+  - intuition
+tags:
+  - Machine learning
+---
+
+
+``` {r setup, include = FALSE}
+library(tidyverse)
+
+cars_data <- mtcars
+
+```
+# Intro to Gradient Descent 
+
+## What's going on here
+
+This is my first _Data Science_ post on my blog. In this post i'll be exploring my understanding of the Gradient Descent algorithm. My next post will explore how to implement this algorithm in R. Then i'll have a play around with the function so we can all see the results of some pretty cool maths.
+
+The Gradient Descent algorithm is the first algorithm presented by Andrew NG in his Machine Learning course. It's my understanding that Gradient Descent is the basis of how machines _learn_.
+
+## linear regression
+
+My understanding of linear regression is how it was presented my the lecturers I had at univisersity. Namely, we look at our data and say that the following model might fit.
+
+$$y_{i} = \beta_{0} + \beta_{1}x_{1i} + \beta_{2i}x_{2i} + ... + \beta_{k}x_{ki} + \epsilon_{i}$$
+I know everyone likes to present it in matrix form or sum notation but I always conceive it in the above form. Anyway basically we're saying "our ys are a linear combination of some xs and there's a random noise thing there too".
+
+Econometricians look at this and go "if we assume all the $\epsilon_{i}$ are normally distributed with the same mean and variance then we can estimate it using Ordinary Least Squares". I'll leave it up to the reader to dive into this if they wish <https://en.wikipedia.org/wiki/Ordinary_least_squares>.
+
+But the data scientist? Interestingly they approach this problem and say "we want to estimate this cool equation (the above one minus the $\epsilon_{i}$ but we don't like assumptions. We want to build a  MACHINE that does it for us."
+
+Then they go about designing this _machine_. They conceive of some hypothesized line that will fit all the points, design a function that tells the machine off when it makes a guess too far away from this line (a _cost function_). Then they roll a ball down a hill.
+
+Wait, what.
+
+That's how Gradient Descent is apparently conceived, as rolling a ball down a hill: You roll it from where you stand, it rolls down to the bottom, then it rolls up a bit because physics and stuff, then it rolls down again, and up a little bit, and down again, and up maybe a tiny bit more, then finally it comes to rest.
+
+What a brilliant concept. As in the physical world, if you want to find the bottom of a hill, you roll a ball down it. In the mathematical world, if you want to find a bottom (minima) of a function you roll a ball down it!
+
+For a linear model the hypothesized line is
+
+$$\hat{y}_{i} = \beta_{0} + \beta_{1}x_{1i} + \beta_{2i}x_{2i} + ... + \beta_{k}x_{ki} $$
+
+And so the data scientist sets up a cost functin like $$cost = \frac{1}{2n}\sum_{i = 1}^n (\hat{y_i} - y_{i})^2$$
+
+The 2 in $\frac{1}{2n}$ is in there for convenience because of course when we go to minimize this function we want to take the first derivative. And so the ball is rolled down the hill of this cost function to minimize it.
+
+
+
+
+
