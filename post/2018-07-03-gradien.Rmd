@@ -66,8 +66,8 @@ because  $x_{0}= 1$
 And so an algorithm that will roll a ball down a hill until it find the bottom will be:
 
 Repeat until convergence: 
-  $$\beta_{0} := \alpha \frac{1}{n} \sum_{i = 1}^n (\hat{y_i} - y_{i})$$
-  $$\beta_{j} := \alpha \frac{1}{n} \sum_{i = 1}^n (\hat{y_i} - y_{i})x_{i}$$
+  $$\beta_{0} := \beta_{0} -\alpha \frac{1}{n} \sum_{i = 1}^n (\hat{y_i} - y_{i})$$
+  $$\beta_{j} := \beta_{j} -  \alpha \frac{1}{n} \sum_{i = 1}^n (\hat{y_i} - y_{i})x_{i}$$
 Where $\alpha$ is the _learning rate_ which I think of as how fast you push the ball when you roll it down the hill. If you push it really hard it will roll to the bottom, then roll up the slope on the other side really quite high, potentially this could cause it to roll into the next valley! Which might be a local minima instead f a global minima.
  
 I love that Machine Learning, especially Gradient Descent feels more experimental than econometrics. To solve this exact problem in econometrics we would have assumed the $\epsilon$s are Gaussian and derived a closed form expression for $\beta_{j}$. 

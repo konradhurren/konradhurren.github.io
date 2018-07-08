@@ -2,21 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Machine Learning on A strong cup of coffee and a comfortable chair</title>
-    <link>https://konradhurren.github.io/tags/machine-learning/</link>
+    <link>/tags/machine-learning/</link>
     <description>Recent content in Machine Learning on A strong cup of coffee and a comfortable chair</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 30 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 08 Jul 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://konradhurren.github.io/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Gradient Descent part deux (or part duh)</title>
+      <link>/2018/07/gradient-descent-part-deux-or-part-duh/</link>
+      <pubDate>Sun, 08 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/07/gradient-descent-part-deux-or-part-duh/</guid>
+      <description>So in my last post I described the maths and intuition of gradient descent. Now I want to go through how to implement gradient descent for a linear regression in R.
+During the building phase for this post I ran through the gradient descent algorithm the “dumb” way just to cement in my own mind how it’s working. And I thought that process might actually be quite instructive for a blog post.</description>
+    </item>
+    
+    <item>
       <title>Gradient Descent part 1</title>
-      <link>https://konradhurren.github.io/2018/06/gradient-descent-part-1/</link>
+      <link>/2018/06/gradient-descent-part-1/</link>
       <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://konradhurren.github.io/2018/06/gradient-descent-part-1/</guid>
+      <guid>/2018/06/gradient-descent-part-1/</guid>
       <description>Intro to Gradient DescentWhat’s going on hereThis is my first Data Science post on my blog. In this post i’ll be exploring my understanding of the Gradient Descent algorithm. My next post will explore how to implement this algorithm in R. Then i’ll have a play around with the function so we can all see the results of some pretty cool maths.
 The Gradient Descent algorithm is the first algorithm presented by Andrew NG in his Machine Learning course.</description>
     </item>
