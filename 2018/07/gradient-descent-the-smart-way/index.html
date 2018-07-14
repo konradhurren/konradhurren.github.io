@@ -20,7 +20,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.42.2 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Gradient Descent part 1</title>
+    <title>Gradient Descent The Smart Way</title>
     <meta name="author" content="Konrad Hurren">
     <meta name="keywords" content="">
 
@@ -28,18 +28,15 @@
     
 
     
-    <meta name="description" content="Intro to Gradient DescentWhat’s going on hereThis is my first Data Science post on my blog. In this post i’ll be exploring my understanding of the Gradient Descent algorithm. My next post will explore how to implement this algorithm in R. Then i’ll have a play around with the function so we can all see the results of some pretty cool maths.
-The Gradient Descent algorithm is the first algorithm presented by Andrew NG in his Machine Learning course.">
-    <meta property="og:description" content="Intro to Gradient DescentWhat’s going on hereThis is my first Data Science post on my blog. In this post i’ll be exploring my understanding of the Gradient Descent algorithm. My next post will explore how to implement this algorithm in R. Then i’ll have a play around with the function so we can all see the results of some pretty cool maths.
-The Gradient Descent algorithm is the first algorithm presented by Andrew NG in his Machine Learning course.">
+    <meta name="description" content="Gradient Descent, the smart wayIn this blog post I want to document my version of a gradient descent algorithm. First we’ll take a look at the data, and fit a linear model to it to understand what we’re trying to get to. Remember we can solve for the \(\hat{\beta}\) matrix either through assuming the \(\epsilon\) are IID and solve for a closed form solution using a Maximum Likelihood Estimator (this is the Econometrics way).">
+    <meta property="og:description" content="Gradient Descent, the smart wayIn this blog post I want to document my version of a gradient descent algorithm. First we’ll take a look at the data, and fit a linear model to it to understand what we’re trying to get to. Remember we can solve for the \(\hat{\beta}\) matrix either through assuming the \(\epsilon\) are IID and solve for a closed form solution using a Maximum Likelihood Estimator (this is the Econometrics way).">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Gradient Descent part 1">
-    <meta property="og:url" content="/2018/06/gradient-descent-part-1/">
+    <meta property="og:title" content="Gradient Descent The Smart Way">
+    <meta property="og:url" content="/2018/07/gradient-descent-the-smart-way/">
     <meta property="og:site_name" content="A strong cup of coffee and a comfortable chair">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="A strong cup of coffee and a comfortable chair">
-    <meta name="twitter:description" content="Intro to Gradient DescentWhat’s going on hereThis is my first Data Science post on my blog. In this post i’ll be exploring my understanding of the Gradient Descent algorithm. My next post will explore how to implement this algorithm in R. Then i’ll have a play around with the function so we can all see the results of some pretty cool maths.
-The Gradient Descent algorithm is the first algorithm presented by Andrew NG in his Machine Learning course.">
+    <meta name="twitter:description" content="Gradient Descent, the smart wayIn this blog post I want to document my version of a gradient descent algorithm. First we’ll take a look at the data, and fit a linear model to it to understand what we’re trying to get to. Remember we can solve for the \(\hat{\beta}\) matrix either through assuming the \(\epsilon\) are IID and solve for a closed form solution using a Maximum Likelihood Estimator (this is the Econometrics way).">
     
     
 
@@ -204,15 +201,15 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Gradient Descent part 1
+      Gradient Descent The Smart Way
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-06-30T00:00:00Z">
+      <time itemprop="datePublished" datetime="2018-07-15T00:00:00Z">
         
-  June 30, 2018
+  July 15, 2018
 
       </time>
     
@@ -223,9 +220,7 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
     
       <a class="category-link" href="/categories/r">R</a>, 
     
-      <a class="category-link" href="/categories/machine-learning">machine learning</a>, 
-    
-      <a class="category-link" href="/categories/intuition">intuition</a>
+      <a class="category-link" href="/categories/machine-learning">machine learning</a>
     
   
 
@@ -235,36 +230,67 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <div id="intro-to-gradient-descent" class="section level1">
-<h1>Intro to Gradient Descent</h1>
-<div id="whats-going-on-here" class="section level2">
-<h2>What’s going on here</h2>
-<p>This is my first <em>Data Science</em> post on my blog. In this post i’ll be exploring my understanding of the Gradient Descent algorithm. My next post will explore how to implement this algorithm in R. Then i’ll have a play around with the function so we can all see the results of some pretty cool maths.</p>
-<p>The Gradient Descent algorithm is the first algorithm presented by Andrew NG in his Machine Learning course. It’s my understanding that Gradient Descent is the basis of how machines <em>learn</em>.</p>
-</div>
-<div id="linear-regression" class="section level2">
-<h2>linear regression</h2>
-<p>My understanding of linear regression is how it was presented my the lecturers I had at univisersity. Namely, we look at our data and say that the following model might fit.</p>
-<p><span class="math display">\[y_{i} = \beta_{0} + \beta_{1}x_{1i} + \beta_{2i}x_{2i} + ... + \beta_{k}x_{ki} + \epsilon_{i}\]</span> I know everyone likes to present it in matrix form or sum notation but I always conceive it in the above form. Anyway basically we’re saying “our ys are a linear combination of some xs and there’s a random noise thing there too”.</p>
-<p>Econometricians look at this and go “if we assume all the <span class="math inline">\(\epsilon_{i}\)</span> are normally distributed with the same mean and variance then we can estimate it using Ordinary Least Squares”. I’ll leave it up to the reader to dive into this if you wish <a href="https://en.wikipedia.org/wiki/Ordinary_least_squares" class="uri">https://en.wikipedia.org/wiki/Ordinary_least_squares</a>.</p>
-<p>But the data scientist? Interestingly they approach this problem and say “we want to estimate this cool equation (the above one minus the <span class="math inline">\(\epsilon_{i}\)</span>) but we don’t like assumptions. We want to build a MACHINE that does it for us.”</p>
-<p>Then they go about designing this <em>machine</em>. They conceive of some hypothesized line that will fit all the points, design a function that tells the machine off when it makes a guess too far away from this line (a <em>cost function</em>). Then they roll a ball down a hill.</p>
-<p>Wait, what.</p>
-<p>That’s how Gradient Descent is apparently conceived, as rolling a ball down a hill: You roll it from where you stand, it rolls down to the bottom, then it rolls up a bit because physics and stuff, then it rolls down again, and up a little bit, and down again, and up maybe a tiny bit more, then finally it comes to rest.</p>
-<p>What a brilliant concept. As in the physical world, if you want to find the bottom of a hill, you roll a ball down it. In the mathematical world, if you want to find a bottom (minima) of a function you roll a ball down it!</p>
-<p>For a linear model the hypothesized line is</p>
-<p><span class="math display">\[\hat{y}_{i} = \hat{\beta}_{0} + \hat{\beta}_{1}x_{1i} + \hat{\beta}_{2}x_{2i} + ... + \hat{\beta}_{k}x_{ki}\]</span></p>
-<p>And so the data scientist sets up a cost functin like <span class="math display">\[cost = \frac{1}{2n}\sum_{i = 1}^n (\hat{y_i} - y_{i})^2\]</span></p>
-<p>The 2 in <span class="math inline">\(\frac{1}{2n}\)</span> is in there for convenience because of course when we go to minimize this function we want to take the first derivative. And so the ball is rolled down the hill of this cost function to minimize it.</p>
-<p>And of course to minimize a function we take the first derivative and set it to 0 (well, I lie, this just finds a stationary point on the function whether that’s a minima or maxima we don’t know until we take a second derivative).</p>
-<p>And we know the first derivative can be written as: <span class="math display">\[\frac{1}{n} \sum_{i = 1}^n (\hat{y_i} - y_{i})x_{i}\]</span> For the “intercept” as it’s called in econmetrics, the <span class="math inline">\(\beta_{0}\)</span>. This simplifies to <span class="math display">\[\frac{1}{n} \sum_{i = 1}^n (\hat{y_i} - y_{i})\]</span></p>
-<p>because <span class="math inline">\(x_{0}= 1\)</span></p>
-<p>And so an algorithm that will roll a ball down a hill until it find the bottom will be:</p>
-<p>Repeat until convergence: <span class="math display">\[\beta_{0} := \beta_{0} -\alpha \frac{1}{n} \sum_{i = 1}^n (\hat{y_i} - y_{i})\]</span> <span class="math display">\[\beta_{j} := \beta_{j} -  \alpha \frac{1}{n} \sum_{i = 1}^n (\hat{y_i} - y_{i})x_{i}\]</span> Where <span class="math inline">\(\alpha\)</span> is the <em>learning rate</em> which I think of as how fast you push the ball when you roll it down the hill. If you push it really hard it will roll to the bottom, then roll up the slope on the other side really quite high, potentially this could cause it to roll into the next valley! Which might be a local minima instead f a global minima.</p>
-<p>I love that Machine Learning, especially Gradient Descent feels more experimental than econometrics. To solve this exact problem in econometrics we would have assumed the <span class="math inline">\(\epsilon\)</span>s are Gaussian and derived a closed form expression for <span class="math inline">\(\beta_{j}\)</span>.</p>
-<p>Anyway that’s the maths and a bit of intuition, in my next post i’m going to write a function in R that <em>does</em> gradient descent. We’ll compare the results of a linear model fit using this to one fit using the lm function in R. Spoiler alert - they’re gonna be similar.</p>
-<p>In the post after that I want to stretech my R skills a bit by re-writing the gradient descent function so that we can see what value of <span class="math inline">\(\alpha\)</span> is “best” for a particular cost function. And also test how many iterations the algorithm needs to converge when we scale our variables versus when we don’t.</p>
-</div>
+              <div id="gradient-descent-the-smart-way" class="section level1">
+<h1>Gradient Descent, the smart way</h1>
+<p>In this blog post I want to document my version of a gradient descent algorithm. First we’ll take a look at the data, and fit a linear model to it to understand what we’re trying to get to. Remember we can solve for the <span class="math inline">\(\hat{\beta}\)</span> matrix either through assuming the <span class="math inline">\(\epsilon\)</span> are IID and solve for a closed form solution using a Maximum Likelihood Estimator (this is the Econometrics way). OR, we can design an algorithm that gets closer and closer to the closed form solution at each iteration. This is the Machine Learning way.</p>
+<p>The Machine Learning and the Econometrics way are both getting to the same solution in the case of linear regression.</p>
+<p>The dataset I’m using is some made up data used in the Machine Learning course on Coursera.</p>
+<p>So let’s see what we’re dealing with. Below I plot the data as points, and fit a linear model using R’s lm() function. R’s lm() function estimates that <span class="math display">\[\mathbf{\hat{\beta}} = \left[\begin{array}
+{r}
+-3.9 \\
+1.19 \\
+\end{array}\right]\]</span></p>
+<p>The predicted values form the lm() function are shown in <span style="color:red">red</span>.</p>
+<p><img src="/post/2018-07-15-gradient-descent-the-smart-way_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Now on to my Gradient Descent algorithm.</p>
+<pre class="r"><code># set the hyper-parameters
+
+learn &lt;- 0.01
+numits &lt;- 2000
+n &lt;- length(y)
+
+# initialize beta
+
+beta &lt;- matrix(0, 2, 1)
+
+# we also want a vector that stores the cost at each iteration (so we can graph it later)
+cost_history &lt;- rep(0, numits)
+
+# we want a function to compute the cost, and a variable to store it
+
+costfun &lt;- function(x, y, beta){
+  h &lt;- x%*%beta
+  error &lt;- h - y
+  cost_at_beta &lt;-  sum((error)^2)/(2*n)
+  return(cost_at_beta)
+}</code></pre>
+<p>Now we want the actual gradient descent. This algorithm needs to take x, y, beta, the learning rate, and the number of iterations. Then, at ach iteration update the beta using the “update amount” it found from the derivative of the cost function evaluated at the previous beta. Inside this function there will be a routine that stores the cost at each iteration in the vector we created during the initialization step. This routine uses the function I made called costfun.</p>
+<p>Finally, we want to be able to look at the estimated beta AND the estimated costs so we need to make a list of those two vectors</p>
+<pre class="r"><code>gradient_desc &lt;- function(x, y, beta, learn, numits){
+ 
+  for(i in 1:numits) { 
+  h &lt;- x%*%beta
+  error &lt;- h - y
+  beta_change &lt;- learn*(t(x)%*%(error))/(n)
+    beta &lt;- beta - beta_change
+    cost_history[i] &lt;- costfun(x, y, beta)
+  }
+  results &lt;- list(beta, cost_history)
+  return(results)
+}
+
+# and store everything (I did this in a weird way, you can also put these inside the functions, but this way is intuitive to me)
+
+results &lt;- gradient_desc(x, y, beta, learn, numits)
+beta &lt;- results[[1]]
+cost_history &lt;- results[[2]]</code></pre>
+<p>Now let’s graph the cost as a function of the number of iterations. We do this to test if our cost function is well behaved and as an idiot check. What we want is a declining function.</p>
+<p><img src="/post/2018-07-15-gradient-descent-the-smart-way_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Cool, the function sharply declines and then levels off. This shape implies the cost function is well behaved and the Gradient Descent algorithm has been implemented properly.</p>
+<p>Let’s now graph the data, the fitted values from lm(), and the fitted values from my Gradient Descent algorithm.</p>
+<p><img src="/post/2018-07-15-gradient-descent-the-smart-way_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Excellent. The values are VERY close (-3.79 and 1.18, compared to lm()’s -3.9 and 1.19). This is expected as explained before: in the linear regression context Gradient Descent will approximate the linear regression. Once we start considering other model types (like decision trees, neural networks, etc.) the lm() function will fall over.</p>
+<p>And with that, we’re done.</p>
 </div>
 
               
@@ -272,16 +298,6 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
           </div>
           <div id="post-footer" class="post-footer main-content-wrap">
             
-              
-                
-                
-                  <div class="post-footer-tags">
-                    <span class="text-color-light text-small">TAGGED IN</span><br/>
-                    
-  <a class="tag tag--primary tag--small" href="/tags/machine-learning/">Machine learning</a>
-
-                  </div>
-                
               
             
             
@@ -291,7 +307,7 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/welcome-to-konrad-s-blog/" data-tooltip="Welcome to Konrad&#39;s blog">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -299,7 +315,7 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/gradient-descent-part-deux-or-part-duh/" data-tooltip="Gradient Descent part deux (or part duh)">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -317,19 +333,19 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/06/gradient-descent-part-1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/07/gradient-descent-the-smart-way/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/06/gradient-descent-part-1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/07/gradient-descent-the-smart-way/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2018/06/gradient-descent-part-1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2018/07/gradient-descent-the-smart-way/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -398,7 +414,7 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/welcome-to-konrad-s-blog/" data-tooltip="Welcome to Konrad&#39;s blog">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -406,7 +422,7 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="/2018/07/gradient-descent-part-deux-or-part-duh/" data-tooltip="Gradient Descent part deux (or part duh)">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -424,19 +440,19 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/06/gradient-descent-part-1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=/2018/07/gradient-descent-the-smart-way/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/06/gradient-descent-part-1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=/2018/07/gradient-descent-the-smart-way/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2018/06/gradient-descent-part-1/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=/2018/07/gradient-descent-the-smart-way/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -466,19 +482,19 @@ The Gradient Descent algorithm is the first algorithm presented by Andrew NG in 
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2018%2F06%2Fgradient-descent-part-1%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=%2F2018%2F07%2Fgradient-descent-the-smart-way%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2018%2F06%2Fgradient-descent-part-1%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=%2F2018%2F07%2Fgradient-descent-the-smart-way%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2F2018%2F06%2Fgradient-descent-part-1%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=%2F2018%2F07%2Fgradient-descent-the-smart-way%2F">
           <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
         </a>
       </li>
@@ -574,6 +590,24 @@ During the building phase for this post I ran through the gradient descent algor
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="/2018/07/gradient-descent-part-1/">
+                <h3 class="media-heading">Gradient Descent part 1</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Intro to Gradient DescentWhat’s going on hereThis is my first Data Science post on my blog. In this post i’ll be exploring my understanding of the Gradient Descent algorithm. My next post will explore how to implement this algorithm in R. Then i’ll have a play around with the function so we can all see the results of some pretty cool maths.
+The Gradient Descent algorithm is the first algorithm presented by Andrew NG in his Machine Learning course.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="/2018/07/welcome-to-konrad-s-blog/">
                 <h3 class="media-heading">Welcome to Konrad&#39;s blog</h3>
               </a>
@@ -583,24 +617,6 @@ During the building phase for this post I ran through the gradient descent algor
                 </span>
               </span>
               <div class="media-content hide-xs font-merryweather">WelcomeWho’s Konrad, what is this blog and why am I here?I have an educational background in economics and econometrics; as a naturally inquisitive person, after university I started reading things unrelated to my job. This lead me to finding this half new half old thing called Machine Learning . After reading through some of the basics I thought “hey some of this looks incredibly similar to econometrics, with some nomenclature differences.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="/2018/06/gradient-descent-part-1/">
-                <h3 class="media-heading">Gradient Descent part 1</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Intro to Gradient DescentWhat’s going on hereThis is my first Data Science post on my blog. In this post i’ll be exploring my understanding of the Gradient Descent algorithm. My next post will explore how to implement this algorithm in R. Then i’ll have a play around with the function so we can all see the results of some pretty cool maths.
-The Gradient Descent algorithm is the first algorithm presented by Andrew NG in his Machine Learning course.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
@@ -654,9 +670,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = '\/2018\/06\/gradient-descent-part-1\/';
+          this.page.url = '\/2018\/07\/gradient-descent-the-smart-way\/';
           
-            this.page.identifier = '\/2018\/06\/gradient-descent-part-1\/'
+            this.page.identifier = '\/2018\/07\/gradient-descent-the-smart-way\/'
           
         };
         (function() {

@@ -1,0 +1,188 @@
+---
+title: Gradient Descent The Smart Way
+author: Konrad
+date: '2018-07-15'
+slug: gradient-descent-the-smart-way
+categories:
+  - R
+  - machine learning
+tags: []
+---
+
+```{r setup, include = FALSE}
+
+library(tidyverse)
+library(modelr)
+
+
+ex1data1 <- read.csv("ex1data1.txt", header=FALSE)
+
+y <- as.matrix(ex1data1[2])
+
+x <- as.matrix(cbind(1, ex1data1[1]))
+
+datums <- as.data.frame(cbind(x, y))
+
+colnames(datums) <- c("one", "x", "y")
+model <- lm(y ~ x, data = datums)
+
+model2 <- function(a, x) {
+  a[1] + a[2]*x 
+  }
+  
+grid <- datums %>% 
+  data_grid(x)
+
+grid <- grid %>% 
+  add_predictions(model) 
+
+
+
+```
+
+
+#Gradient Descent, the smart way
+
+In this blog post I want to document my version of a gradient descent algorithm. First we'll take a look at the data, and fit a linear model to it to understand what we're trying to get to. Remember we can solve for the $\hat{\beta}$ matrix either through assuming the $\epsilon$ are IID and solve for a closed form solution using a Maximum Likelihood Estimator (this is the Econometrics way). OR, we can design an algorithm that gets closer and closer to the closed form solution at each iteration. This is the Machine Learning way.
+
+The Machine Learning and the Econometrics way are both getting to the same solution in the case of linear regression.
+
+The dataset I'm using is some made up data used in the Machine Learning course on Coursera. 
+
+So let's see what we're dealing with. Below I plot the data as points, and fit a linear model using R's lm() function. R's lm() function estimates that $$\mathbf{\hat{\beta}} = \left[\begin{array}
+{r}
+-3.9 \\
+1.19 \\
+\end{array}\right]$$
+
+The predicted values form the lm() function are shown in <span style="color:red">red</span>.
+
+```{r, echo = FALSE}
+ggplot(datums, aes(x)) +
+  geom_point(aes(y = y )) +
+  geom_line(
+    aes(y = pred, colour = "lm_function"),
+    data = grid,
+    size = 1) +
+  theme_bw() +
+  labs(title = "x vs y for some play data",
+       x = "x",
+       y = "y",
+       caption = "Konrad's Blog",
+       subtitle = "With a fitted linear model") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(plot.subtitle = element_text(hjust = 0.5)) +
+  theme(plot.caption = element_text(face = "italic")) +
+  scale_colour_manual("",
+                      breaks = c("lm_function"),
+                      values = c("lm_function" = "red"))
+```
+
+Now on to my Gradient Descent algorithm.
+
+```{r grad_desc}
+# set the hyper-parameters
+
+learn <- 0.01
+numits <- 2000
+n <- length(y)
+
+# initialize beta
+
+beta <- matrix(0, 2, 1)
+
+# we also want a vector that stores the cost at each iteration (so we can graph it later)
+cost_history <- rep(0, numits)
+
+# we want a function to compute the cost, and a variable to store it
+
+costfun <- function(x, y, beta){
+  h <- x%*%beta
+  error <- h - y
+  cost_at_beta <-  sum((error)^2)/(2*n)
+  return(cost_at_beta)
+}
+```
+
+Now we want the actual gradient descent. This algorithm needs to take x, y, beta, the learning rate, and the number of iterations. Then, at ach iteration update the beta using the "update amount" it found from the derivative of the cost function evaluated at the previous beta. Inside this function there will be a routine that stores the cost at each iteration in the vector we created during the initialization step. This routine uses the function I made called costfun.
+
+Finally, we want to be able to look at the estimated beta AND the estimated costs
+so we need to make a list of those two vectors 
+```{r}
+gradient_desc <- function(x, y, beta, learn, numits){
+ 
+  for(i in 1:numits) { 
+  h <- x%*%beta
+  error <- h - y
+  beta_change <- learn*(t(x)%*%(error))/(n)
+    beta <- beta - beta_change
+    cost_history[i] <- costfun(x, y, beta)
+  }
+  results <- list(beta, cost_history)
+  return(results)
+}
+
+# and store everything (I did this in a weird way, you can also put these inside the functions, but this way is intuitive to me)
+
+results <- gradient_desc(x, y, beta, learn, numits)
+beta <- results[[1]]
+cost_history <- results[[2]]
+
+```
+
+```{r, echo = FALSE}
+grid <- grid %>% 
+  mutate(pred2 = model2(beta, x))
+```
+
+
+Now let's graph the cost as a function of the number of iterations. We do this to test if our cost function is well behaved and as an idiot check. What we want is a declining function.
+
+```{r, echo = FALSE}
+ ggplot() +
+  geom_line(mapping = aes(x = 1:numits, y = cost_history)) +
+  theme_bw() +
+  labs(title = "Cost as a function of number of iterations",
+       x = "Iterations",
+       y = "Cost",
+       caption = "Konrad's Blog",
+       subtitle = "Using play data") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(plot.subtitle = element_text(hjust = 0.5)) +
+  theme(plot.caption = element_text(face = "italic"))
+
+
+```
+
+Cool, the function sharply declines and then levels off. This shape implies the cost function is well behaved and the Gradient Descent algorithm has been implemented properly.
+
+Let's now graph the data, the fitted values from lm(), and the fitted values from my Gradient Descent algorithm.
+
+```{r, echo = FALSE}
+ggplot(datums, aes(x)) +
+  geom_point(aes(y = y )) +
+  geom_line(
+    aes(y = pred, colour = "lm_function"),
+    data = grid,
+    size = 1) +
+  geom_line(
+    aes(y = pred2, colour = "Grad_desc"),
+    data = grid,
+    size = 1) +
+  theme_bw() +
+  labs(title = "x vs y for some play data",
+       x = "x",
+       y = "y",
+       caption = "Konrad's Blog",
+       subtitle = "With prediction lines") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(plot.subtitle = element_text(hjust = 0.5)) +
+  theme(plot.caption = element_text(face = "italic")) +
+  scale_colour_manual("",
+                     breaks = c("lm_function", "Grad_desc"),
+                     values = c("lm_function" = "red", "Grad_desc" = "blue"))
+```
+
+Excellent. The values are VERY close (-3.79 and 1.18, compared to lm()'s -3.9 and 1.19). This is expected as explained before: in the linear regression context Gradient Descent will approximate the linear regression. Once we start considering other model types (like decision trees, neural networks, etc.) the lm() function will fall over.
+
+And with that, we're done.

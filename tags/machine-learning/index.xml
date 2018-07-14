@@ -23,10 +23,10 @@ During the building phase for this post I ran through the gradient descent algor
     
     <item>
       <title>Gradient Descent part 1</title>
-      <link>/2018/06/gradient-descent-part-1/</link>
-      <pubDate>Sat, 30 Jun 2018 00:00:00 +0000</pubDate>
+      <link>/2018/07/gradient-descent-part-1/</link>
+      <pubDate>Tue, 03 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/2018/06/gradient-descent-part-1/</guid>
+      <guid>/2018/07/gradient-descent-part-1/</guid>
       <description>Intro to Gradient DescentWhat’s going on hereThis is my first Data Science post on my blog. In this post i’ll be exploring my understanding of the Gradient Descent algorithm. My next post will explore how to implement this algorithm in R. Then i’ll have a play around with the function so we can all see the results of some pretty cool maths.
 The Gradient Descent algorithm is the first algorithm presented by Andrew NG in his Machine Learning course.</description>
     </item>
