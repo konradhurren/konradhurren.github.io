@@ -3,74 +3,79 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/2018/07/gradient-descent-the-smart-way/</loc>
+    <loc>https://konradhurren.github.io/2018/08/logistic-regression-gradient-descent/</loc>
+    <lastmod>2018-08-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://konradhurren.github.io/2018/07/gradient-descent-the-smart-way/</loc>
     <lastmod>2018-07-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2018/07/gradient-descent-part-deux-or-part-duh/</loc>
+    <loc>https://konradhurren.github.io/2018/07/gradient-descent-part-deux-or-part-duh/</loc>
     <lastmod>2018-07-08T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2018/07/gradient-descent-part-1/</loc>
+    <loc>https://konradhurren.github.io/2018/07/gradient-descent-part-1/</loc>
     <lastmod>2018-07-03T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2018/07/welcome-to-konrad-s-blog/</loc>
+    <loc>https://konradhurren.github.io/2018/07/welcome-to-konrad-s-blog/</loc>
     <lastmod>2018-07-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/</loc>
-    <lastmod>2018-07-15T00:00:00+00:00</lastmod>
+    <loc>https://konradhurren.github.io/</loc>
+    <lastmod>2018-08-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/archives/</loc>
+    <loc>https://konradhurren.github.io/archives/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>https://konradhurren.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/intuition/</loc>
+    <loc>https://konradhurren.github.io/categories/intuition/</loc>
     <lastmod>2018-07-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/machine-learning/</loc>
-    <lastmod>2018-07-08T00:00:00+00:00</lastmod>
+    <loc>https://konradhurren.github.io/categories/machine-learning/</loc>
+    <lastmod>2018-08-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/machine-learning/</loc>
-    <lastmod>2018-07-15T00:00:00+00:00</lastmod>
+    <loc>https://konradhurren.github.io/tags/machine-learning/</loc>
+    <lastmod>2018-08-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2018-07-15T00:00:00+00:00</lastmod>
+    <loc>https://konradhurren.github.io/post/</loc>
+    <lastmod>2018-08-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2018-07-15T00:00:00+00:00</lastmod>
+    <loc>https://konradhurren.github.io/categories/r/</loc>
+    <lastmod>2018-08-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/</loc>
-    <lastmod>2018-07-08T00:00:00+00:00</lastmod>
+    <loc>https://konradhurren.github.io/tags/</loc>
+    <lastmod>2018-08-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

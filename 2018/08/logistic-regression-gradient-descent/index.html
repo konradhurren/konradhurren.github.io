@@ -20,7 +20,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.42.2 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Welcome to Konrad&#39;s blog</title>
+    <title>Logistic regression - Gradient Descent</title>
     <meta name="author" content="Konrad Hurren">
     <meta name="keywords" content="">
 
@@ -28,15 +28,15 @@
     
 
     
-    <meta name="description" content="WelcomeWho’s Konrad, what is this blog and why am I here?I have an educational background in economics and econometrics; as a naturally inquisitive person, after university I started reading things unrelated to my job. This lead me to finding this half new half old thing called Machine Learning . After reading through some of the basics I thought “hey some of this looks incredibly similar to econometrics, with some nomenclature differences.">
-    <meta property="og:description" content="WelcomeWho’s Konrad, what is this blog and why am I here?I have an educational background in economics and econometrics; as a naturally inquisitive person, after university I started reading things unrelated to my job. This lead me to finding this half new half old thing called Machine Learning . After reading through some of the basics I thought “hey some of this looks incredibly similar to econometrics, with some nomenclature differences.">
+    <meta name="description" content="Logistic Regression with gradient descentIn this post we’re looking at my second favourite machine learning algorithm - logistic regression. This algorithm is incredibly useful: Imagine you’re a central planner and you have a dataset of, let’s say, 18 - 24 year olds. Prior to gathering this data you decided you would randomly allocate driver’s licences to half of these 18 - 24 year olds without reuiring them to sit their formal tests.">
+    <meta property="og:description" content="Logistic Regression with gradient descentIn this post we’re looking at my second favourite machine learning algorithm - logistic regression. This algorithm is incredibly useful: Imagine you’re a central planner and you have a dataset of, let’s say, 18 - 24 year olds. Prior to gathering this data you decided you would randomly allocate driver’s licences to half of these 18 - 24 year olds without reuiring them to sit their formal tests.">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Welcome to Konrad&#39;s blog">
-    <meta property="og:url" content="/2018/07/welcome-to-konrad-s-blog/">
+    <meta property="og:title" content="Logistic regression - Gradient Descent">
+    <meta property="og:url" content="/2018/08/logistic-regression-gradient-descent/">
     <meta property="og:site_name" content="A strong cup of coffee and a comfortable chair">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="A strong cup of coffee and a comfortable chair">
-    <meta name="twitter:description" content="WelcomeWho’s Konrad, what is this blog and why am I here?I have an educational background in economics and econometrics; as a naturally inquisitive person, after university I started reading things unrelated to my job. This lead me to finding this half new half old thing called Machine Learning . After reading through some of the basics I thought “hey some of this looks incredibly similar to econometrics, with some nomenclature differences.">
+    <meta name="twitter:description" content="Logistic Regression with gradient descentIn this post we’re looking at my second favourite machine learning algorithm - logistic regression. This algorithm is incredibly useful: Imagine you’re a central planner and you have a dataset of, let’s say, 18 - 24 year olds. Prior to gathering this data you decided you would randomly allocate driver’s licences to half of these 18 - 24 year olds without reuiring them to sit their formal tests.">
     
     
 
@@ -201,35 +201,128 @@
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Welcome to Konrad&#39;s blog
+      Logistic regression - Gradient Descent
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-07-01T00:00:00Z">
+      <time itemprop="datePublished" datetime="2018-08-04T00:00:00Z">
         
-  July 1, 2018
+  August 4, 2018
 
       </time>
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://konradhurren.github.io/categories/machine-learning">machine learning</a>, 
+    
+      <a class="category-link" href="https://konradhurren.github.io/categories/r">R</a>
+    
+  
+
   </div>
 
 </div>
           
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <div id="welcome" class="section level1">
-<h1>Welcome</h1>
-<div id="whos-konrad-what-is-this-blog-and-why-am-i-here" class="section level2">
-<h2>Who’s Konrad, what is this blog and why am I here?</h2>
-<p>I have an educational background in economics and econometrics; as a naturally inquisitive person, after university I started reading things unrelated to my job. This lead me to finding this half new half old thing called <em>Machine Learning</em> . After reading through some of the basics I thought “hey some of this looks incredibly similar to econometrics, with some nomenclature differences.” And from there my curiosity grew as I discovered Machine Learning is part of a broader discipline called <em>Data Science</em> .</p>
-<p>Now this was right up my alley. Over the last few months I’ve been following a few courses on Udemy and Coursera, notably Andrew Ng’s <em>Machine Learning</em> course on Coursera. It’s been a satisfying journey so far and this blog is basically a portfolio of Machine Learning and Data Science stuff that I’ve completed.</p>
-<p>I’ll be building up this portfolio by following Andrew Ng’s course and completing the exercises in R to post them on this portfolio. This will showcase how I’ve learned Machine Learning, as well as serve to help me hone my R skills - especially in a package called Shiny and R Markdown.</p>
-<p>The other side of me professionally is an economist with a strong interest and strong subscription to the Misesian-Mengerian (sometimes called <em>Austrian</em>) school. This school of thought starts off with a set of self-evident axioms of human action, and from those derives the entire catalogue of economic truths we have so far. It has its detractors and very valid critics, notably Brian Caplan (and his excellent post “why I am not an Austrian”) but, overall, the current nature of the world and global economy seems to be best explained with reference to this <em>Austrian</em> method.</p>
-<p>This blog will, from time to time, feature some real economics.</p>
+              <div id="logistic-regression-with-gradient-descent" class="section level1">
+<h1>Logistic Regression with gradient descent</h1>
+<p>In this post we’re looking at my second favourite machine learning algorithm - logistic regression. This algorithm is incredibly useful: Imagine you’re a central planner and you have a dataset of, let’s say, 18 - 24 year olds. Prior to gathering this data you decided you would randomly allocate driver’s licences to half of these 18 - 24 year olds without reuiring them to sit their formal tests. And now you want to assess whether you doing so had any effect on their labour market outcomes (let’s just say employment).</p>
+<p>We have a few options - we can fit a linear model (like the previous blog post) with a binary dependent variable <span class="math inline">\(y = \{unemployed, employed\} = \{0,1\}\)</span> and do a pretty standard test for statistical signifance on the coefficient for licence <span class="math inline">\(\beta_{licence}\)</span>. But what if we care not just about the statistical significance but about the numeric significance. I.e what if we want to know “how much mor elikely is an 18 - 24 year old to be employed given the treatment of being assigned a driver’s licence?”. For that we use a logistic regression.</p>
+<p>We do have to be careful that we don’t interpret this as causality though. That is a seperate statistical and philosophical consideration.</p>
+<p>In machine learning, because the goal is usually different than econometrics, we might use a logistic regression to decide whether, given some information about a thing, it belongs in one group or another. This is called <em>classification</em>.</p>
+<p>Maybe, as in the previous example we have a dataset of 18 - 24 year olds, and their labour market status (employed or not) and we want to predict whether they have their driver licence. This might be useful in the beginning of such an exercise for the central planner to understand how many driver licences need to be allocated. It’s also important for a related issue - matching. This is a process where we try to find people in a dataset who had a “close enough” probability of being treate dor not. This effectively creates an imaginary random trial experiment. In the current examplew e have some made up data and I will show you how to run a gradient descent algorithm to get a solution for a logistic regression problem. I will then show you how to do so using the glm() R function with a pretty graphic.</p>
+<p>In the last post I found a solution to a linear regression problem and my estimate of <span class="math inline">\(\beta\)</span> was almost exactly the same as the lm() function. This post is more of the same. Slight difference but we can get arbitrarily close using more iterations or different learning rates. It helps substantially that I scaled the data. This helps because it means the cost function isn’t “stretched” in a particular direction to some silly degree. Which makes the algorithm faster.</p>
+<p>This brings up the question of why you would use gradient descent and not just use closed form methods. Closed form methods take more machine resource and time. So, for example, if you have a phone app that classifies dogs in real time using the camera you can’t be waiting for the processor to calculate the closed form solution using a similar method to glm().</p>
+<pre class="r"><code># scale all the data (we need this for later)
+
+training_set[-3] = scale(training_set[-3])
+test_set[-3] = scale(test_set[-3])
+
+# make the x and y vars
+
+eX_train &lt;- as.matrix(cbind(1, training_set[1:2]))
+wai_train &lt;- as.matrix(training_set[3])
+
+eX_test &lt;- as.matrix(cbind(1, test_set[1:2]))
+wai_test &lt;- as.matrix(test_set[3])
+
+#set parameters
+
+learn &lt;- 0.1
+numits &lt;- 20000
+n &lt;- length(wai_train)
+
+# initialize beta
+beta &lt;- matrix(0, 3, 1)
+
+for(i in 1:numits) { 
+    h &lt;- sigmoid(eX_train%*%beta)
+    error &lt;- h - wai_train
+    beta_change &lt;- learn*(1/n)*(t(eX_train)%*%(error))
+    beta &lt;- beta - beta_change
+    
+}
+
+
+
+predicted_wai = sigmoid(eX_test%*%beta)</code></pre>
 </div>
+<div id="glm-version-with-pretty-graphics" class="section level1">
+<h1>glm() version with pretty graphics</h1>
+<pre class="r"><code>colnames(ex2data1) &lt;- c(&quot;var1&quot;, &quot;var2&quot;, &quot;why&quot;)
+
+split = sample.split(ex2data1$why, SplitRatio = 0.75)
+training_set = subset(ex2data1, split == TRUE)
+test_set = subset(ex2data1, split == FALSE)
+
+training_set[-3] = scale(training_set[-3])
+test_set[-3] = scale(test_set[-3])
+
+logistic &lt;-  glm(formula = why ~ .,
+                 family = binomial,
+                 data = training_set)
+
+prob_pred = predict(logistic, type = &#39;response&#39;, newdata = test_set[-3])
+y_pred = ifelse(prob_pred &gt; 0.5, 1, 0)
+
+set = test_set
+X1 = seq(min(set[, 1]) - 1, max(set[, 1]) + 1, by = 0.01)
+X2 = seq(min(set[, 2]) - 1, max(set[, 2]) + 1, by = 0.01)
+grid_set = expand.grid(X1, X2)
+colnames(grid_set) = c(&#39;var1&#39;, &#39;var2&#39;)
+prob_set = predict(logistic, type = &#39;response&#39;, newdata = grid_set)
+y_grid = ifelse(prob_set &gt; 0.5, 1, 0)
+plot(set[, -3],
+     main = &#39;Logistic Regression&#39;,
+     xlab = &#39;var1&#39;, ylab = &#39;var2&#39;,
+     xlim = range(X1), ylim = range(X2))
+contour(X1, X2, matrix(as.numeric(y_grid), length(X1), length(X2)), add = TRUE)
+points(grid_set, pch = &#39;.&#39;, col = ifelse(y_grid == 1, &#39;springgreen3&#39;, &#39;tomato&#39;))
+points(set, pch = 21, bg = ifelse(set[, 3] == 1, &#39;green4&#39;, &#39;red3&#39;))</code></pre>
+<p><img src="https://konradhurren.github.io/post/2018-08-04-logistic-regression-gradient-descent_files/figure-html/glm-1.png" width="672" /></p>
+<pre class="r"><code># confusion matrices
+
+cm_GD = table(wai_test, predicted_wai &gt; 0.5)
+cm_GLM = table(test_set$why, y_pred &gt; 0.5)</code></pre>
+<p>As you can see in the above graphic, there were 2 red points that the algorithm thought were in the green zone. And no green points the algorithm thought were in the red zone.</p>
+<p>We can asses show wrong or right out classifiers are by looking at the confusion matrices. These show how many actual 1s were predicted as 1s, and how many actual 0s were predicted as 0s. As well as the combinations where the classifier got it wrong.</p>
+<p>Basically you want the numbers on the diagonal (from left top corner) to be big and the other numbers to be small. We observe this result which is encouraging. Both the glm() classifier and my classifier trained via gradient descent display good results.</p>
+<pre class="r"><code>cm_GD</code></pre>
+<pre><code>##         
+## wai_test FALSE TRUE
+##        0     8    2
+##        1     1   14</code></pre>
+<pre class="r"><code>cm_GLM</code></pre>
+<pre><code>##    
+##     FALSE TRUE
+##   0     8    2
+##   1     0   15</code></pre>
 </div>
 
               
@@ -237,6 +330,16 @@
           </div>
           <div id="post-footer" class="post-footer main-content-wrap">
             
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://konradhurren.github.io/tags/machine-learning/">Machine learning</a>
+
+                  </div>
+                
               
             
             
@@ -246,7 +349,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://konradhurren.github.io/2018/07/gradient-descent-part-1/" data-tooltip="Gradient Descent part 1">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -254,7 +357,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://konradhurren.github.io/2018/07/gradient-descent-the-smart-way/" data-tooltip="Gradient Descent The Smart Way">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -272,19 +375,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://konradhurren.github.io/2018/07/welcome-to-konrad-s-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://konradhurren.github.io/2018/08/logistic-regression-gradient-descent/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://konradhurren.github.io/2018/07/welcome-to-konrad-s-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://konradhurren.github.io/2018/08/logistic-regression-gradient-descent/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://konradhurren.github.io/2018/07/welcome-to-konrad-s-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://konradhurren.github.io/2018/08/logistic-regression-gradient-descent/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -353,7 +456,7 @@
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://konradhurren.github.io/2018/07/gradient-descent-part-1/" data-tooltip="Gradient Descent part 1">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -361,7 +464,7 @@
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://konradhurren.github.io/2018/07/gradient-descent-the-smart-way/" data-tooltip="Gradient Descent The Smart Way">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -379,19 +482,19 @@
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://konradhurren.github.io/2018/07/welcome-to-konrad-s-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://konradhurren.github.io/2018/08/logistic-regression-gradient-descent/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://konradhurren.github.io/2018/07/welcome-to-konrad-s-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://konradhurren.github.io/2018/08/logistic-regression-gradient-descent/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://konradhurren.github.io/2018/07/welcome-to-konrad-s-blog/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://konradhurren.github.io/2018/08/logistic-regression-gradient-descent/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -421,19 +524,19 @@
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fkonradhurren.github.io%2F2018%2F07%2Fwelcome-to-konrad-s-blog%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fkonradhurren.github.io%2F2018%2F08%2Flogistic-regression-gradient-descent%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fkonradhurren.github.io%2F2018%2F07%2Fwelcome-to-konrad-s-blog%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fkonradhurren.github.io%2F2018%2F08%2Flogistic-regression-gradient-descent%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fkonradhurren.github.io%2F2018%2F07%2Fwelcome-to-konrad-s-blog%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fkonradhurren.github.io%2F2018%2F08%2Flogistic-regression-gradient-descent%2F">
           <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
         </a>
       </li>
@@ -626,9 +729,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/konradhurren.github.io\/2018\/07\/welcome-to-konrad-s-blog\/';
+          this.page.url = 'https:\/\/konradhurren.github.io\/2018\/08\/logistic-regression-gradient-descent\/';
           
-            this.page.identifier = '\/2018\/07\/welcome-to-konrad-s-blog\/'
+            this.page.identifier = '\/2018\/08\/logistic-regression-gradient-descent\/'
           
         };
         (function() {
